@@ -1,0 +1,99 @@
+name: Build and deploy website
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: dichthat-web-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check and build
+        run: |
+          npm run check
+          npm run build
+          npm run verify
+
+      - name: Upload static website
+        uses: actions/upload-artifact@v4
+        with:
+          name: dichthat-web-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    permissions:
+      contents: read
+    steps:
+      - name: Download static website
+        uses: actions/download-artifact@v4
+        with:
+          name: dichthat-web-dist
+          path: dist
+
+      - name: Validate deployment settings
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_PATH: ${{ secrets.CPANEL_PATH }}
+          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+          CPANEL_KNOWN_HOSTS: ${{ secrets.CPANEL_KNOWN_HOSTS }}
+          CPANEL_SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
+        run: |
+          test -n "$CPANEL_HOST"
+          test -n "$CPANEL_PORT"
+          test -n "$CPANEL_USER"
+          test -n "$CPANEL_KNOWN_HOSTS"
+          test -n "$CPANEL_SSH_PRIVATE_KEY"
+          case "$CPANEL_PATH" in
+            ""|"/") echo "CPANEL_PATH must point to public_html." >&2; exit 1 ;;
+          esac
+
+      - name: Configure SSH
+        env:
+          CPANEL_KNOWN_HOSTS: ${{ secrets.CPANEL_KNOWN_HOSTS }}
+          CPANEL_SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$CPANEL_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf '%s\n' "$CPANEL_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/known_hosts ~/.ssh/id_ed25519
+
+      - name: Deploy static files
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_PATH: ${{ secrets.CPANEL_PATH }}
+          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+        run: |
+          rsync -az \
+            -e "ssh -i ~/.ssh/id_ed25519 -p ${CPANEL_PORT}" \
+            dist/ "${CPANEL_USER}@${CPANEL_HOST}:${CPANEL_PATH}/"
