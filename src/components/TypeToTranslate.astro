@@ -1,0 +1,228 @@
+<section class="type-to-translate container" aria-labelledby="type-title">
+  <div class="section-heading">
+    <p class="section-eyebrow" data-i18n="typeToTranslate.eyebrow">From the menu bar</p>
+    <h2 id="type-title" data-i18n="typeToTranslate.title">Type to translate</h2>
+    <p class="section-description" data-i18n="typeToTranslate.description">
+      Open DichThat from the menu bar and start typing. The translation appears automatically.
+    </p>
+  </div>
+
+  <div class="menu-demo" data-menu-demo>
+    <div class="menu-bar" aria-hidden="true">
+      <img class="menu-icon" data-menu-anchor src="/assets/brand-dt.png" width="24" height="24" alt="" />
+
+      <div class="system-status">
+        <svg class="status-icon wifi-icon" viewBox="0 0 24 18" aria-hidden="true">
+          <path d="M2 5.6a15.8 15.8 0 0 1 20 0M5.3 9.4a10.7 10.7 0 0 1 13.4 0M8.8 13.1a5.3 5.3 0 0 1 6.4 0" />
+          <circle cx="12" cy="16" r="1.25" />
+        </svg>
+
+        <svg class="status-icon control-center-icon" viewBox="0 0 22 18" aria-hidden="true">
+          <path d="M3 5h16M3 13h16" />
+          <circle cx="8" cy="5" r="2.35" />
+          <circle cx="14" cy="13" r="2.35" />
+        </svg>
+
+        <svg class="status-icon battery-icon" viewBox="0 0 30 14" aria-hidden="true">
+          <rect x="1" y="1" width="25" height="12" rx="3" />
+          <rect class="battery-level" x="3.3" y="3.3" width="19" height="7.4" rx="1.4" />
+          <path d="M28 5v4" />
+        </svg>
+
+        <span class="status-time">09:41</span>
+      </div>
+    </div>
+
+    <div
+      class="menu-popup"
+      role="img"
+      data-menu-popup
+      data-i18n-aria-label="typeToTranslate.accessibility"
+      aria-label="DichThat type-to-translate window opened from the macOS menu bar"
+    >
+      <img src="/assets/demo2.png" width="892" height="400" alt="" />
+    </div>
+  </div>
+</section>
+
+<script>
+  const syncMenuPopup = (): void => {
+    document.querySelectorAll<HTMLElement>("[data-menu-demo]").forEach((demo) => {
+      const anchor = demo.querySelector<HTMLElement>("[data-menu-anchor]");
+      const popup = demo.querySelector<HTMLElement>("[data-menu-popup]");
+      const menuBar = demo.querySelector<HTMLElement>(".menu-bar");
+      const systemStatus = demo.querySelector<HTMLElement>(".system-status");
+      if (!anchor || !popup || !menuBar || !systemStatus) return;
+
+      const demoRect = demo.getBoundingClientRect();
+      const popupRect = popup.getBoundingClientRect();
+      const menuRect = menuBar.getBoundingClientRect();
+      const statusRect = systemStatus.getBoundingClientRect();
+      const tailX = popupRect.width * (794 / 892);
+      const tailY = popupRect.width * (39 / 892);
+      const desiredTop = menuRect.bottom - demoRect.top - tailY;
+      const anchorLeft = statusRect.left - demoRect.left - 22;
+      const safeInset = 10;
+      const desiredPopupLeft = anchorLeft - tailX;
+      const popupLeft = Math.min(
+        Math.max(desiredPopupLeft, safeInset),
+        demoRect.width - popupRect.width - safeInset,
+      );
+
+      anchor.style.left = `${anchorLeft}px`;
+      popup.style.left = `${popupLeft}px`;
+      popup.style.top = `${Math.max(desiredTop, 16)}px`;
+    });
+  };
+
+  syncMenuPopup();
+  document.fonts.ready.then(syncMenuPopup);
+  document.querySelectorAll<HTMLImageElement>("[data-menu-popup] img").forEach((image) => {
+    if (!image.complete) image.addEventListener("load", syncMenuPopup, { once: true });
+  });
+  new ResizeObserver(syncMenuPopup).observe(document.documentElement);
+</script>
+
+<style>
+  .type-to-translate {
+    padding-block: clamp(5rem, 10vw, 8rem);
+  }
+
+  .section-heading {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .menu-demo {
+    position: relative;
+    min-height: clamp(360px, 44vw, 470px);
+    margin-top: clamp(3rem, 7vw, 5.5rem);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+    background:
+      radial-gradient(circle at 45% 10%, color-mix(in srgb, var(--surface) 92%, transparent), transparent 42%),
+      var(--surface-soft);
+  }
+
+  .menu-bar {
+    position: relative;
+    height: 52px;
+    border-bottom: 1px solid rgb(255 255 255 / 9%);
+    background: rgb(24 24 25 / 96%);
+    box-shadow: 0 1px 12px rgb(0 0 0 / 12%);
+  }
+
+  .menu-icon {
+    position: absolute;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    filter: brightness(0) invert(1);
+    object-fit: contain;
+    transform: translate(-50%, -50%);
+    transition: left var(--duration-medium) var(--ease-standard);
+  }
+
+  .system-status {
+    position: absolute;
+    top: 50%;
+    right: clamp(1rem, 3vw, 1.75rem);
+    display: flex;
+    align-items: center;
+    gap: 0.72rem;
+    color: #fff;
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transform: translateY(-50%);
+  }
+
+  .status-icon {
+    display: block;
+    flex: 0 0 auto;
+    width: 20px;
+    height: 18px;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .wifi-icon {
+    width: 21px;
+  }
+
+  .wifi-icon circle,
+  .battery-level {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .control-center-icon {
+    width: 20px;
+  }
+
+  .control-center-icon circle {
+    fill: rgb(24 24 25);
+    stroke-width: 1.7;
+  }
+
+  .battery-icon {
+    width: 29px;
+    stroke-width: 1.45;
+  }
+
+  .status-time {
+    min-width: 2.3rem;
+    text-align: right;
+  }
+
+  .menu-popup {
+    position: absolute;
+    top: 44px;
+    left: 10px;
+    width: min(78%, 720px);
+    filter: drop-shadow(0 24px 54px rgb(0 0 0 / 18%));
+    transition:
+      top var(--duration-medium) var(--ease-standard),
+      left var(--duration-medium) var(--ease-standard);
+  }
+
+  .menu-popup img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 640px) {
+    .menu-demo {
+      min-height: 290px;
+    }
+
+    .menu-popup {
+      width: 77%;
+    }
+
+    .system-status {
+      right: 0.9rem;
+      gap: 0.58rem;
+    }
+
+    .control-center-icon,
+    .status-time {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-icon,
+    .menu-popup {
+      transition: none;
+    }
+  }
+</style>

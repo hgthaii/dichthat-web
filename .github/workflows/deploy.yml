@@ -1,0 +1,88 @@
+name: Build and deploy website
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: dichthat-web-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check and build
+        run: |
+          npm run check
+          npm run build
+          npm run verify
+
+      - name: Upload static website
+        uses: actions/upload-artifact@v4
+        with:
+          name: dichthat-web-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 3
+
+  deploy:
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    permissions:
+      contents: read
+    steps:
+      - name: Download static website
+        uses: actions/download-artifact@v4
+        with:
+          name: dichthat-web-dist
+          path: dist
+
+      - name: Validate deployment settings
+        env:
+          CPANEL_FTP_SERVER: ${{ secrets.CPANEL_FTP_SERVER }}
+          CPANEL_FTP_USERNAME: ${{ secrets.CPANEL_FTP_USERNAME }}
+          CPANEL_FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          CPANEL_FTP_PORT: ${{ secrets.CPANEL_FTP_PORT }}
+          CPANEL_FTP_PATH: ${{ secrets.CPANEL_FTP_PATH }}
+        run: |
+          test -n "$CPANEL_FTP_SERVER"
+          test -n "$CPANEL_FTP_USERNAME"
+          test -n "$CPANEL_FTP_PASSWORD"
+          test -n "$CPANEL_FTP_PORT"
+          case "$CPANEL_FTP_PATH" in
+            */) ;;
+            *) echo "CPANEL_FTP_PATH must end with /." >&2; exit 1 ;;
+          esac
+
+      - name: Deploy static files
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.CPANEL_FTP_SERVER }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          port: ${{ secrets.CPANEL_FTP_PORT }}
+          protocol: ftp
+          local-dir: dist/
+          server-dir: ${{ secrets.CPANEL_FTP_PATH }}

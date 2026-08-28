@@ -1,0 +1,92 @@
+---
+const features = [
+  { symbol: "IPA", title: "features.ipaTitle", defaultTitle: "Pronunciation", description: "features.ipaDescription", defaultDescription: "See US IPA and hear the word spoken with a macOS voice." },
+  { symbol: "Aa", title: "features.partsTitle", defaultTitle: "Parts of speech", description: "features.partsDescription", defaultDescription: "Identify nouns, verbs, adjectives, and more." },
+  { symbol: "“”", title: "features.meaningsTitle", defaultTitle: "Meanings and examples", description: "features.meaningsDescription", defaultDescription: "Read Vietnamese meanings with practical usage examples." },
+  { symbol: "≈", title: "features.synonymsTitle", defaultTitle: "Synonyms", description: "features.synonymsDescription", defaultDescription: "Explore related English words at a glance." },
+];
+---
+
+<section class="features container" aria-labelledby="features-title">
+  <div class="section-heading">
+    <p class="section-eyebrow" data-i18n="features.eyebrow">Word details</p>
+    <h2 id="features-title" data-i18n="features.title">Understand more</h2>
+  </div>
+
+  <div class="feature-grid">
+    {features.map((feature) => (
+      <article class="feature">
+        <span class="feature-symbol" aria-hidden="true">{feature.symbol}</span>
+        <h3 data-i18n={feature.title}>{feature.defaultTitle}</h3>
+        <p data-i18n={feature.description}>{feature.defaultDescription}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .features {
+    padding-block: var(--section-space);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    margin-top: clamp(3.5rem, 8vw, 6rem);
+    border-block: 1px solid var(--divider);
+  }
+
+  .feature {
+    min-height: 260px;
+    padding: clamp(2rem, 5vw, 3.75rem);
+  }
+
+  .feature:nth-child(odd) {
+    border-right: 1px solid var(--divider);
+  }
+
+  .feature:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .feature-symbol {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    color: var(--accent-strong);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  h3 {
+    margin: 1.4rem 0 0;
+    font-size: 1.25rem;
+    letter-spacing: -0.025em;
+  }
+
+  .feature p {
+    max-width: 390px;
+    margin: 0.75rem 0 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 680px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .feature {
+      min-height: auto;
+      padding: 2rem 0;
+      border-right: 0 !important;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .feature:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

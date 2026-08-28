@@ -1,0 +1,108 @@
+<div class="appearance" data-appearance-root>
+  <button
+    class="appearance-trigger"
+    type="button"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls="appearance-menu"
+    data-appearance-trigger
+    data-i18n-aria-label="footer.appearanceLabel"
+    aria-label="Appearance"
+  >
+    <span aria-hidden="true">◐</span>
+  </button>
+
+  <div id="appearance-menu" class="appearance-menu" role="menu" data-appearance-menu hidden>
+    <p data-i18n="footer.appearanceTitle">Appearance</p>
+    <button type="button" role="menuitemradio" aria-checked="true" data-theme-option="system">
+      <span class="check" aria-hidden="true">✓</span>
+      <span data-i18n="footer.system">System</span>
+    </button>
+    <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="light">
+      <span class="check" aria-hidden="true">✓</span>
+      <span data-i18n="footer.light">Light</span>
+    </button>
+    <button type="button" role="menuitemradio" aria-checked="false" data-theme-option="dark">
+      <span class="check" aria-hidden="true">✓</span>
+      <span data-i18n="footer.dark">Dark</span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .appearance {
+    position: relative;
+  }
+
+  .appearance-trigger {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  .appearance-trigger:hover,
+  .appearance-trigger[aria-expanded="true"] {
+    background: var(--surface-soft);
+    color: var(--text-primary);
+  }
+
+  .appearance-menu {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    bottom: calc(100% + 10px);
+    width: 180px;
+    padding: 0.45rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    box-shadow: 0 14px 40px rgb(0 0 0 / 18%);
+    backdrop-filter: blur(24px);
+  }
+
+  .appearance-menu[hidden] {
+    display: none;
+  }
+
+  .appearance-menu p {
+    margin: 0;
+    padding: 0.45rem 0.6rem 0.4rem;
+    color: var(--text-tertiary);
+    font-size: 0.68rem;
+    font-weight: 650;
+  }
+
+  .appearance-menu button {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    width: 100%;
+    padding: 0.48rem 0.55rem;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .appearance-menu button:hover,
+  .appearance-menu button:focus-visible {
+    background: var(--surface-soft);
+  }
+
+  .check {
+    visibility: hidden;
+    color: var(--accent);
+  }
+
+  .is-selected .check {
+    visibility: visible;
+  }
+</style>

@@ -1,0 +1,137 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+button,
+a {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 280ms var(--ease-standard),
+    transform 280ms var(--ease-standard);
+}
+
+.reveal-ready.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-ready .desktop-stage,
+.reveal-ready .menu-demo,
+.reveal-ready .settings-preview {
+  opacity: 0;
+  transform: translateY(16px) scale(0.99);
+  transition:
+    opacity 300ms var(--ease-standard) 80ms,
+    transform 300ms var(--ease-standard) 80ms;
+}
+
+.reveal-ready.is-visible .desktop-stage,
+.reveal-ready.is-visible .menu-demo,
+.reveal-ready.is-visible .settings-preview {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.features.reveal-ready .feature {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 260ms var(--ease-standard),
+    transform 260ms var(--ease-standard);
+}
+
+.features.reveal-ready.is-visible .feature {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.features.reveal-ready.is-visible .feature:nth-child(2) {
+  transition-delay: 50ms;
+}
+
+.features.reveal-ready.is-visible .feature:nth-child(3) {
+  transition-delay: 100ms;
+}
+
+.features.reveal-ready.is-visible .feature:nth-child(4) {
+  transition-delay: 150ms;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 65%, transparent);
+  outline-offset: 4px;
+}
+
+.container {
+  width: min(100% - (2 * var(--page-padding)), var(--container));
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-ready,
+  .reveal-ready .desktop-stage,
+  .reveal-ready .menu-demo,
+  .reveal-ready .settings-preview,
+  .features.reveal-ready .feature {
+    opacity: 1;
+    transform: none;
+  }
+}
