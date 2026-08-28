@@ -1,0 +1,63 @@
+.section-heading {
+  max-width: var(--text-container);
+}
+
+.section-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--text-tertiary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.section-description {
+  margin: 1.25rem 0 0;
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  line-height: 1.65;
+  letter-spacing: -0.014em;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.78rem 1.25rem;
+  border-radius: var(--radius-small);
+  background: var(--accent-strong);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 8%);
+  transition: transform var(--duration-fast) var(--ease-standard), opacity var(--duration-fast);
+}
+
+.primary-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.text-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+.text-link:hover {
+  color: var(--text-primary);
+}
+
+.requirement {
+  color: var(--text-tertiary);
+  font-size: 0.78rem;
+}

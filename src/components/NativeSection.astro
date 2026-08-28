@@ -1,0 +1,60 @@
+<section class="native container" aria-labelledby="native-title">
+  <div class="section-heading">
+    <p class="section-eyebrow" data-i18n="native.eyebrow">Native to your Mac</p>
+    <h2 id="native-title" data-i18n="native.title">Designed for macOS.</h2>
+    <p class="section-description" data-i18n="native.description">
+      A lightweight native app with Light/Dark Mode, a customizable shortcut, and optional launch at login.
+    </p>
+  </div>
+
+  <figure
+    class="settings-preview"
+    role="img"
+    data-i18n-aria-label="native.accessibility"
+    aria-label="DichThat Settings with Accessibility, keyboard shortcut, and launch at login controls"
+  >
+    <img src="/assets/settings.png" width="1310" alt="" loading="lazy" />
+  </figure>
+</section>
+
+<style>
+  .native {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(500px, 1.2fr);
+    align-items: center;
+    gap: clamp(3rem, 8vw, 7rem);
+    padding-block: var(--section-space);
+  }
+
+  .settings-preview {
+    display: flex;
+    min-width: 0;
+    margin: 0;
+    filter: drop-shadow(0 30px 70px rgb(0 0 0 / 16%));
+  }
+
+  .settings-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1310 / 1024;
+    object-fit: contain;
+  }
+
+  @media (max-width: 900px) {
+    .native {
+      grid-template-columns: 1fr;
+    }
+
+    .settings-preview {
+      width: min(100%, 720px);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .settings-preview {
+      margin-inline: -0.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+import AppearanceSwitcher from "./AppearanceSwitcher.astro";
+import LocaleSwitcher from "./LocaleSwitcher.astro";
+import { GITHUB_URL } from "../config/site";
+---
+
+<footer>
+  <div class="footer-inner container">
+    <div class="identity">
+      <strong data-i18n="footer.product">DichThat</strong>
+      <small data-i18n="footer.copyright">© 2026 hgthaii</small>
+    </div>
+
+    <nav aria-label="Footer">
+      <a href={GITHUB_URL} data-i18n="footer.github" target="_blank">GitHub</a>
+      <span aria-hidden="true">·</span>
+      <a href="/privacy/" data-i18n="footer.privacy">Privacy</a>
+      <span aria-hidden="true">·</span>
+      <a href="/data-sources/" data-i18n="footer.dataSources">Data Sources</a>
+    </nav>
+
+    <div class="preferences">
+      <LocaleSwitcher />
+      <AppearanceSwitcher />
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding-block: 2.25rem;
+    border-top: 1px solid var(--divider);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .identity {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .identity strong {
+    font-size: 0.88rem;
+  }
+
+  .identity small {
+    color: var(--text-tertiary);
+    font-size: 0.7rem;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+  }
+
+  nav a {
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--text-primary);
+  }
+
+  .preferences {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (max-width: 760px) {
+    footer {
+      padding-block: 2.75rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .identity {
+      gap: 0.3rem;
+    }
+
+    .preferences {
+      justify-content: center;
+      gap: 0.75rem;
+    }
+  }
+</style>

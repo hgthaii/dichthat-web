@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import { GITHUB_URL } from "../config/site";
+import { en } from "../i18n/en";
+
+const sections = [
+  ["privacy.selectedTitle", en.privacy.selectedTitle, "privacy.selectedBody", en.privacy.selectedBody],
+  ["privacy.servicesTitle", en.privacy.servicesTitle, "privacy.servicesBody", en.privacy.servicesBody],
+  ["privacy.dictionaryTitle", en.privacy.dictionaryTitle, "privacy.dictionaryBody", en.privacy.dictionaryBody],
+  ["privacy.storageTitle", en.privacy.storageTitle, "privacy.storageBody", en.privacy.storageBody],
+  ["privacy.thirdPartyTitle", en.privacy.thirdPartyTitle, "privacy.thirdPartyBody", en.privacy.thirdPartyBody],
+  ["privacy.analyticsTitle", en.privacy.analyticsTitle, "privacy.analyticsBody", en.privacy.analyticsBody],
+] as const;
+---
+
+<BaseLayout
+  title="Privacy — DichThat"
+  description="How DichThat processes selected text on your Mac, stores preferences, and connects to update services."
+  path="/privacy/"
+>
+  <main class="privacy container">
+    <a class="back" href="/" aria-label="Back to DichThat">
+      <span aria-hidden="true">←</span>
+      <span data-i18n="privacy.back">Back to DichThat</span>
+    </a>
+
+    <header>
+      <p class="section-eyebrow" data-i18n="privacy.eyebrow">DichThat</p>
+      <h1 data-i18n="privacy.title">Privacy</h1>
+      <p class="intro" data-i18n="privacy.intro">
+        DichThat is designed to translate the text you choose without building a history of what you read or write.
+      </p>
+      <small data-i18n="privacy.updated">Last updated: August 28, 2026</small>
+    </header>
+
+    <div class="privacy-content">
+      {sections.map(([titleKey, title, bodyKey, body]) => (
+        <section>
+          <h2 data-i18n={titleKey}>{title}</h2>
+          <p data-i18n={bodyKey}>{body}</p>
+        </section>
+      ))}
+
+      <section>
+        <h2 data-i18n="privacy.contactTitle">Questions</h2>
+        <p>
+          <span data-i18n="privacy.contactBody">For privacy questions or bug reports, open an issue on GitHub.</span>
+          <a href={`${GITHUB_URL}/issues`}> GitHub ↗</a>
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .privacy {
+    min-height: calc(100vh - 150px);
+    padding-block: clamp(3rem, 8vw, 6rem) var(--section-space);
+  }
+
+  .back {
+    display: inline-flex;
+    gap: 0.55rem;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+
+  .back:hover { color: var(--text-primary); }
+
+  header {
+    max-width: var(--text-container);
+    margin-top: clamp(4rem, 10vw, 7rem);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .intro {
+    margin: 1.5rem 0 1rem;
+    color: var(--text-secondary);
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    line-height: 1.6;
+  }
+
+  header small {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  .privacy-content {
+    max-width: var(--text-container);
+    margin-top: clamp(4rem, 9vw, 6.5rem);
+  }
+
+  .privacy-content section {
+    padding-block: 2rem;
+    border-top: 1px solid var(--divider);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
+
+  .privacy-content p {
+    margin: 0.85rem 0 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .privacy-content a { color: var(--text-primary); }
+</style>

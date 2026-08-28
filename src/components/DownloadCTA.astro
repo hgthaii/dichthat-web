@@ -1,0 +1,50 @@
+---
+import { DOWNLOAD_URL } from "../config/site";
+---
+
+<section class="download-section container" aria-labelledby="download-title">
+  <img src="/app-icon.png" width="72" height="72" alt="" />
+  <p data-i18n="cta.product">DichThat</p>
+  <h2 id="download-title" data-i18n="cta.title">Translate right where you read.</h2>
+  <a class="primary-button" href={DOWNLOAD_URL} data-i18n="cta.download">Download for macOS</a>
+  <small data-i18n="cta.requirement">Requires macOS 26 or later</small>
+</section>
+
+<style>
+  .download-section {
+    padding-block: var(--section-space);
+    text-align: center;
+  }
+
+  img {
+    margin-inline: auto;
+    border-radius: 23%;
+    box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
+  }
+
+  p {
+    margin: 1.25rem 0 0;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  h2 {
+    margin: 0.75rem 0 2rem;
+    font-size: clamp(2.25rem, 5vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.05em;
+  }
+
+  small {
+    display: block;
+    margin-top: 0.9rem;
+    color: var(--text-tertiary);
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 560px) {
+    h2 {
+      font-size: clamp(2rem, 10vw, 2.75rem);
+    }
+  }
+</style>

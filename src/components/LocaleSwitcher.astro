@@ -1,0 +1,45 @@
+<div class="locale-switcher" role="group" data-i18n-aria-label="footer.localeLabel" aria-label="Language">
+  <button type="button" data-locale="vi" aria-pressed="false">VI</button>
+  <span aria-hidden="true">/</span>
+  <button type="button" data-locale="en" aria-pressed="true">EN</button>
+</div>
+
+<style>
+  .locale-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 650;
+  }
+
+  button {
+    position: relative;
+    min-width: 28px;
+    padding: 0.45rem 0.25rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  button::after {
+    content: "";
+    position: absolute;
+    right: 4px;
+    bottom: 2px;
+    left: 4px;
+    height: 1px;
+    background: transparent;
+  }
+
+  button:hover,
+  button.is-active {
+    color: var(--text-primary);
+  }
+
+  button.is-active::after {
+    background: var(--accent);
+  }
+</style>

@@ -1,0 +1,200 @@
+<section class="demo-section container" aria-labelledby="demo-title">
+  <div class="section-heading">
+    <p class="section-eyebrow" data-i18n="demo.eyebrow">Translate without interruption</p>
+    <h2 id="demo-title" data-i18n="demo.title">Quick Translate</h2>
+    <p class="section-description" data-i18n="demo.description">
+      Select text, press your shortcut, and read the translation beside it. DichThat automatically detects English or Vietnamese.
+    </p>
+  </div>
+
+  <div class="desktop-stage" data-demo-stage>
+    <div class="document" aria-hidden="true">
+      <span class="document-dot"></span>
+      <span class="document-dot"></span>
+      <span class="document-dot"></span>
+      <div class="document-lines">
+        <i></i><i></i><i></i>
+      </div>
+      <p class="document-copy">
+				The <mark data-demo-selection>circumstances</mark> seemed propitious for a fresh beginning.
+      </p>
+      <div class="document-lines lower">
+        <i></i><i></i><i></i>
+      </div>
+    </div>
+
+    <div
+      class="translation-panel"
+      role="img"
+      data-demo-panel
+      data-i18n-aria-label="demo.accessibility"
+      aria-label="DichThat translation window preview"
+    >
+      <img src="/assets/demo1.png" width="892" height="732" alt="" />
+    </div>
+  </div>
+</section>
+
+<script>
+  const syncDemoPanel = (): void => {
+    document.querySelectorAll<HTMLElement>("[data-demo-stage]").forEach((stage) => {
+      const selection = stage.querySelector<HTMLElement>("[data-demo-selection]");
+      const panel = stage.querySelector<HTMLElement>("[data-demo-panel]");
+      if (!selection || !panel) return;
+
+      const stageRect = stage.getBoundingClientRect();
+      const selectionRect = selection.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      const edge = 16;
+      const tailX = panelRect.width * (97 / 892);
+      const tailY = panelRect.width * (39 / 892);
+      const desiredLeft = selectionRect.right - stageRect.left - tailX;
+      const desiredTop = selectionRect.bottom - stageRect.top + 8 - tailY;
+
+      const left = Math.min(
+        Math.max(desiredLeft, edge),
+        stageRect.width - panelRect.width - edge,
+      );
+      const top = Math.min(
+        Math.max(desiredTop, edge),
+        stageRect.height - panelRect.height - edge,
+      );
+
+      panel.style.left = `${left}px`;
+      panel.style.top = `${top}px`;
+    });
+  };
+
+  syncDemoPanel();
+  document.fonts.ready.then(syncDemoPanel);
+  document.querySelectorAll<HTMLImageElement>("[data-demo-panel] img").forEach((image) => {
+    if (!image.complete) image.addEventListener("load", syncDemoPanel, { once: true });
+  });
+  new ResizeObserver(syncDemoPanel).observe(document.documentElement);
+</script>
+
+<style>
+  .demo-section {
+    padding-block: var(--section-space);
+  }
+
+  .section-heading {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .desktop-stage {
+    position: relative;
+    min-height: clamp(650px, 66vw, 760px);
+    margin-top: clamp(3rem, 7vw, 5.5rem);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+    background:
+      radial-gradient(circle at 22% 18%, color-mix(in srgb, var(--surface) 95%, transparent), transparent 38%),
+      var(--surface-soft);
+  }
+
+  .document {
+    position: absolute;
+    top: 12%;
+    left: 9%;
+    width: 78%;
+    height: 66%;
+    padding: clamp(1.2rem, 3vw, 2.2rem);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 18px 60px rgb(0 0 0 / 7%);
+  }
+
+  .document-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 4px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .document-lines {
+    display: grid;
+    gap: 11px;
+    margin-top: 2rem;
+  }
+
+  .document-lines i {
+    display: block;
+    width: 88%;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--divider);
+  }
+
+  .document-lines i:nth-child(2),
+  .document-lines i:nth-child(5) {
+    width: 72%;
+  }
+
+  mark {
+    padding: 0.12rem 0.22rem;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--accent) 26%, transparent);
+    color: var(--text-primary);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .document-copy {
+    max-width: 90%;
+    margin: 1.4rem 0;
+    color: var(--text-secondary);
+    font-size: clamp(0.72rem, 1.45vw, 1rem);
+    line-height: 1.75;
+  }
+
+  .document-lines.lower {
+    margin-top: 0;
+  }
+
+  .translation-panel {
+    position: absolute;
+    top: 34%;
+    left: 24%;
+    width: min(60%, 600px);
+    filter: drop-shadow(0 24px 54px rgb(0 0 0 / 18%));
+    transition:
+      left var(--duration-medium) var(--ease-standard),
+      top var(--duration-medium) var(--ease-standard);
+  }
+
+  .translation-panel img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 640px) {
+    .desktop-stage {
+      min-height: clamp(390px, 112vw, 450px);
+    }
+
+    .document {
+      top: 8%;
+      left: 4%;
+      width: 92%;
+      height: 58%;
+      padding: 1rem;
+    }
+
+    .translation-panel {
+      width: 55%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .translation-panel {
+      transition: none;
+    }
+  }
+</style>
