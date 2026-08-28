@@ -61,39 +61,28 @@ jobs:
 
       - name: Validate deployment settings
         env:
-          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
-          CPANEL_PATH: ${{ secrets.CPANEL_PATH }}
-          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
-          CPANEL_USER: ${{ secrets.CPANEL_USER }}
-          CPANEL_KNOWN_HOSTS: ${{ secrets.CPANEL_KNOWN_HOSTS }}
-          CPANEL_SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
+          CPANEL_FTP_SERVER: ${{ secrets.CPANEL_FTP_SERVER }}
+          CPANEL_FTP_USERNAME: ${{ secrets.CPANEL_FTP_USERNAME }}
+          CPANEL_FTP_PASSWORD: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          CPANEL_FTP_PORT: ${{ secrets.CPANEL_FTP_PORT }}
+          CPANEL_FTP_PATH: ${{ secrets.CPANEL_FTP_PATH }}
         run: |
-          test -n "$CPANEL_HOST"
-          test -n "$CPANEL_PORT"
-          test -n "$CPANEL_USER"
-          test -n "$CPANEL_KNOWN_HOSTS"
-          test -n "$CPANEL_SSH_PRIVATE_KEY"
-          case "$CPANEL_PATH" in
-            ""|"/") echo "CPANEL_PATH must point to public_html." >&2; exit 1 ;;
+          test -n "$CPANEL_FTP_SERVER"
+          test -n "$CPANEL_FTP_USERNAME"
+          test -n "$CPANEL_FTP_PASSWORD"
+          test -n "$CPANEL_FTP_PORT"
+          case "$CPANEL_FTP_PATH" in
+            */) ;;
+            *) echo "CPANEL_FTP_PATH must end with /." >&2; exit 1 ;;
           esac
 
-      - name: Configure SSH
-        env:
-          CPANEL_KNOWN_HOSTS: ${{ secrets.CPANEL_KNOWN_HOSTS }}
-          CPANEL_SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_PRIVATE_KEY }}
-        run: |
-          install -m 700 -d ~/.ssh
-          printf '%s\n' "$CPANEL_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          printf '%s\n' "$CPANEL_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/known_hosts ~/.ssh/id_ed25519
-
       - name: Deploy static files
-        env:
-          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
-          CPANEL_PATH: ${{ secrets.CPANEL_PATH }}
-          CPANEL_PORT: ${{ secrets.CPANEL_PORT }}
-          CPANEL_USER: ${{ secrets.CPANEL_USER }}
-        run: |
-          rsync -az \
-            -e "ssh -i ~/.ssh/id_ed25519 -p ${CPANEL_PORT}" \
-            dist/ "${CPANEL_USER}@${CPANEL_HOST}:${CPANEL_PATH}/"
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.CPANEL_FTP_SERVER }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          port: ${{ secrets.CPANEL_FTP_PORT }}
+          protocol: ftp
+          local-dir: dist/
+          server-dir: ${{ secrets.CPANEL_FTP_PATH }}

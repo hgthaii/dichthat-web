@@ -24,16 +24,16 @@ Nút tải app luôn sử dụng endpoint GitHub Release ổn định tới `Dic
 ## Triển khai tự động
 
 Pull request vào `master` sẽ chạy kiểm tra và build. Khi push hoặc chạy thủ công
-trên `master`, workflow dùng SSH key để đưa nội dung trong `dist/` lên cPanel.
+trên `master`, workflow đưa nội dung trong `dist/` lên cPanel bằng FTP.
 
 Tạo GitHub Environment tên `production` và thêm các Secrets:
 
-- `CPANEL_HOST`
-- `CPANEL_PORT`
-- `CPANEL_USER`
-- `CPANEL_PATH`
-- `CPANEL_KNOWN_HOSTS`
-- `CPANEL_SSH_PRIVATE_KEY`
+- `CPANEL_FTP_SERVER`
+- `CPANEL_FTP_PORT`
+- `CPANEL_FTP_USERNAME`
+- `CPANEL_FTP_PASSWORD`
+- `CPANEL_FTP_PATH`
 
-`CPANEL_PATH` phải là đường dẫn tuyệt đối tới thư mục website, ví dụ
-`/home/username/public_html`. Workflow không tự xóa file ngoài gói build trên hosting.
+`CPANEL_FTP_PATH` là đường dẫn nhìn thấy từ tài khoản FTP và phải kết thúc bằng
+`/`, ví dụ `public_html/`. Nếu tài khoản FTP đã được giới hạn trực tiếp vào
+`public_html`, sử dụng `/`.
