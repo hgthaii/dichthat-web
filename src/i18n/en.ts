@@ -1,12 +1,12 @@
 export const en = {
   meta: {
-    title: "DichThat — Quick Translate for macOS",
-    description: "Fast English–Vietnamese translation, right where you’re reading on macOS.",
+    title: "DichThat — Translate. Stay in flow.",
+    description: "Fast English–Vietnamese translation with a simple, focused experience.",
   },
   hero: {
     product: "DichThat",
     tagline: "Translate. Stay in flow.",
-    description: "Fast English–Vietnamese translation, right where you’re reading on macOS.",
+    description: "Fast English–Vietnamese translation with a simple, focused experience.",
     download: "Download for macOS",
     github: "GitHub",
     requirement: "Requires macOS 26 or later",
@@ -41,7 +41,7 @@ export const en = {
   native: {
     eyebrow: "Native to your Mac",
     title: "Designed for macOS.",
-    description: "A lightweight native app with Light/Dark Mode, a customizable shortcut, and optional launch at login.",
+    description: "Lightweight and seamless, with Light and Dark modes, a customizable shortcut, and launch at login.",
     accessibility: "DichThat Settings with Accessibility, keyboard shortcut, and launch at login controls",
     permissionTitle: "Accessibility",
     permissionDescription: "Reads your current selection when you ask it to translate.",
@@ -60,6 +60,7 @@ export const en = {
     github: "GitHub",
     privacy: "Privacy",
     dataSources: "Data Sources",
+    support: "Buy me a coffee",
     localeLabel: "Language",
     appearanceLabel: "Appearance",
     appearanceTitle: "Appearance",

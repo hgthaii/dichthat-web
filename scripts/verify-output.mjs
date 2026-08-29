@@ -20,6 +20,7 @@ const home = await readFile("dist/index.html", "utf8");
 const privacy = await readFile("dist/privacy/index.html", "utf8");
 const dataSources = await readFile("dist/data-sources/index.html", "utf8");
 const download = "https://github.com/hgthaii/dichthat/releases/latest/download/DichThat.dmg";
+const support = "https://www.buymeacoffee.com/hgthaii";
 
 if ((home.split(download).length - 1) !== 2) {
   throw new Error("Expected exactly two direct latest-DMG links on the landing page.");
@@ -27,6 +28,10 @@ if ((home.split(download).length - 1) !== 2) {
 
 if (!home.includes("canonical") || !home.includes("og-image.png")) {
   throw new Error("Landing page metadata is incomplete.");
+}
+
+if (!home.includes(support)) {
+  throw new Error("Landing page footer is missing the Buy Me a Coffee link.");
 }
 
 if (!privacy.includes("Apple Translation") || !privacy.includes("offline dictionary")) {

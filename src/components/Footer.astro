@@ -1,22 +1,40 @@
 ---
 import AppearanceSwitcher from "./AppearanceSwitcher.astro";
 import LocaleSwitcher from "./LocaleSwitcher.astro";
-import { GITHUB_URL } from "../config/site";
+import { BUY_ME_A_COFFEE_URL, GITHUB_URL } from "../config/site";
+
+const links = [
+  { href: GITHUB_URL, key: "footer.github", label: "GitHub", external: true },
+  { href: "/privacy/", key: "footer.privacy", label: "Privacy", external: false },
+  { href: "/data-sources/", key: "footer.dataSources", label: "Data Sources", external: false },
+  { href: BUY_ME_A_COFFEE_URL, key: "footer.support", label: "Buy me a coffee", external: true },
+] as const;
+
+const year = new Date().getFullYear();
 ---
 
 <footer>
   <div class="footer-inner container">
     <div class="identity">
       <strong data-i18n="footer.product">DichThat</strong>
-      <small data-i18n="footer.copyright">© 2026 hgthaii</small>
+      <small data-i18n="footer.copyright">© {year} hgthaii</small>
     </div>
 
     <nav aria-label="Footer">
-      <a href={GITHUB_URL} data-i18n="footer.github" target="_blank">GitHub</a>
-      <span aria-hidden="true">·</span>
-      <a href="/privacy/" data-i18n="footer.privacy">Privacy</a>
-      <span aria-hidden="true">·</span>
-      <a href="/data-sources/" data-i18n="footer.dataSources">Data Sources</a>
+      {links.map((link, index) => (
+        <>
+          {index > 0 && <span aria-hidden="true">·</span>}
+          <a
+            class:list={{ "support-link": link.key === "footer.support" }}
+            href={link.href}
+            data-i18n={link.key}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noreferrer" : undefined}
+          >
+            {link.label}
+          </a>
+        </>
+      ))}
     </nav>
 
     <div class="preferences">
@@ -68,6 +86,11 @@ import { GITHUB_URL } from "../config/site";
 
   nav a:hover {
     color: var(--text-primary);
+  }
+
+  .support-link {
+    color: var(--text-primary);
+    font-weight: 600;
   }
 
   .preferences {

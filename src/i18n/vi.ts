@@ -1,12 +1,12 @@
 export const vi = {
   meta: {
-    title: "DichThat — Dịch nhanh trên macOS",
-    description: "Ứng dụng dịch Anh – Việt nhanh chóng với trải nghiệm tối giản trên macOS.",
+    title: "DichThat — Dịch ngay nơi bạn đọc",
+    description: "Ứng dụng dịch Anh – Việt nhanh chóng với trải nghiệm tối giản.",
   },
   hero: {
     product: "DichThat",
     tagline: "Dịch ngay nơi bạn đọc",
-    description: "Ứng dụng dịch Anh – Việt nhanh chóng với trải nghiệm tối giản trên macOS.",
+    description: "Ứng dụng dịch Anh – Việt nhanh chóng với trải nghiệm tối giản.",
     download: "Tải xuống cho macOS",
     github: "GitHub",
     requirement: "Yêu cầu macOS 26 trở lên",
@@ -41,7 +41,7 @@ export const vi = {
   native: {
     eyebrow: "Luôn sẵn sàng trên thanh menu",
     title: "Được thiết kế cho macOS.",
-    description: "Ứng dụng native gọn nhẹ, hỗ trợ Light/Dark Mode, phím tắt tuỳ chỉnh và tự mở khi đăng nhập.",
+    description: "Gọn nhẹ và liền mạch, từ giao diện sáng tối đến phím tắt và khởi động cùng hệ thống.",
     accessibility: "Cài đặt DichThat với quyền Trợ năng, phím tắt tuỳ chỉnh và tùy chọn mở khi đăng nhập",
     permissionTitle: "Quyền Trợ năng",
     permissionDescription: "Đọc phần chữ đang chọn khi bạn yêu cầu dịch.",
@@ -60,6 +60,7 @@ export const vi = {
     github: "GitHub",
     privacy: "Quyền riêng tư",
     dataSources: "Nguồn dữ liệu",
+    support: "Mời mình cà phê",
     localeLabel: "Ngôn ngữ",
     appearanceLabel: "Giao diện",
     appearanceTitle: "Giao diện",

@@ -46,41 +46,36 @@
 </section>
 
 <script>
-  const syncMenuPopup = (): void => {
-    document.querySelectorAll<HTMLElement>("[data-menu-demo]").forEach((demo) => {
-      const anchor = demo.querySelector<HTMLElement>("[data-menu-anchor]");
-      const popup = demo.querySelector<HTMLElement>("[data-menu-popup]");
-      const menuBar = demo.querySelector<HTMLElement>(".menu-bar");
-      const systemStatus = demo.querySelector<HTMLElement>(".system-status");
-      if (!anchor || !popup || !menuBar || !systemStatus) return;
+  import { observeResponsiveLayout } from "../scripts/responsive-layout";
 
-      const demoRect = demo.getBoundingClientRect();
-      const popupRect = popup.getBoundingClientRect();
-      const menuRect = menuBar.getBoundingClientRect();
-      const statusRect = systemStatus.getBoundingClientRect();
-      const tailX = popupRect.width * (794 / 892);
-      const tailY = popupRect.width * (39 / 892);
-      const desiredTop = menuRect.bottom - demoRect.top - tailY;
-      const anchorLeft = statusRect.left - demoRect.left - 22;
-      const safeInset = 10;
-      const desiredPopupLeft = anchorLeft - tailX;
-      const popupLeft = Math.min(
-        Math.max(desiredPopupLeft, safeInset),
-        demoRect.width - popupRect.width - safeInset,
-      );
+  const positionPopup = (demo: HTMLElement): void => {
+    const anchor = demo.querySelector<HTMLElement>("[data-menu-anchor]");
+    const popup = demo.querySelector<HTMLElement>("[data-menu-popup]");
+    const menuBar = demo.querySelector<HTMLElement>(".menu-bar");
+    const systemStatus = demo.querySelector<HTMLElement>(".system-status");
+    if (!anchor || !popup || !menuBar || !systemStatus) return;
 
-      anchor.style.left = `${anchorLeft}px`;
-      popup.style.left = `${popupLeft}px`;
-      popup.style.top = `${Math.max(desiredTop, 16)}px`;
-    });
+    const demoRect = demo.getBoundingClientRect();
+    const popupRect = popup.getBoundingClientRect();
+    const menuRect = menuBar.getBoundingClientRect();
+    const statusRect = systemStatus.getBoundingClientRect();
+    const tailX = popupRect.width * (794 / 892);
+    const tailY = popupRect.width * (39 / 892);
+    const desiredTop = menuRect.bottom - demoRect.top - tailY;
+    const anchorLeft = statusRect.left - demoRect.left - 22;
+    const safeInset = 10;
+    const desiredPopupLeft = anchorLeft - tailX;
+    const popupLeft = Math.min(
+      Math.max(desiredPopupLeft, safeInset),
+      demoRect.width - popupRect.width - safeInset,
+    );
+
+    anchor.style.left = `${anchorLeft}px`;
+    popup.style.left = `${popupLeft}px`;
+    popup.style.top = `${Math.max(desiredTop, 16)}px`;
   };
 
-  syncMenuPopup();
-  document.fonts.ready.then(syncMenuPopup);
-  document.querySelectorAll<HTMLImageElement>("[data-menu-popup] img").forEach((image) => {
-    if (!image.complete) image.addEventListener("load", syncMenuPopup, { once: true });
-  });
-  new ResizeObserver(syncMenuPopup).observe(document.documentElement);
+  observeResponsiveLayout("[data-menu-demo]", "[data-menu-popup] img", positionPopup);
 </script>
 
 <style>
