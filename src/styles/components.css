@@ -61,3 +61,87 @@
   color: var(--text-tertiary);
   font-size: 0.78rem;
 }
+
+.info-page {
+  min-height: calc(100vh - 150px);
+  padding-block: clamp(3rem, 8vw, 6rem) var(--section-space);
+}
+
+.info-back {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.info-back:hover {
+  color: var(--text-primary);
+}
+
+.info-header,
+.info-content {
+  max-width: var(--text-container);
+}
+
+.info-header {
+  margin-top: clamp(4rem, 10vw, 7rem);
+}
+
+.info-header h1 {
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.info-intro {
+  margin: 1.5rem 0 1rem;
+  color: var(--text-secondary);
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 1.6;
+}
+
+.info-header small {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+}
+
+.info-content {
+  margin-top: clamp(4rem, 9vw, 6.5rem);
+}
+
+.info-content section {
+  padding-block: 2rem;
+  border-top: 1px solid var(--divider);
+}
+
+.info-content h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.info-content p {
+  margin: 0.85rem 0 0;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.info-content a {
+  color: var(--text-primary);
+}
+
+.info-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.info-links a {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}

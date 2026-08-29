@@ -13,22 +13,22 @@ const CMU_LICENSE = "https://github.com/hgthaii/dichthat/blob/master/Resources/T
   description="The on-device frameworks and bundled language data used by DichThat."
   path="/data-sources/"
 >
-  <main class="sources container">
-    <a class="back" href="/" aria-label="Back to DichThat">
+  <main class="info-page container">
+    <a class="info-back" href="/" aria-label="Back to DichThat">
       <span aria-hidden="true">←</span>
       <span data-i18n="dataSources.back">Back to DichThat</span>
     </a>
 
-    <header>
+    <header class="info-header">
       <p class="section-eyebrow" data-i18n="dataSources.eyebrow">DichThat</p>
       <h1 data-i18n="dataSources.title">Data Sources</h1>
-      <p class="intro" data-i18n="dataSources.intro">
+      <p class="info-intro" data-i18n="dataSources.intro">
         DichThat combines macOS system frameworks with bundled offline language data.
       </p>
       <small data-i18n="dataSources.updated">Last updated: August 28, 2026</small>
     </header>
 
-    <div class="source-list">
+    <div class="info-content">
       <section>
         <h2 data-i18n="dataSources.appleTitle">Apple Translation</h2>
         <p data-i18n="dataSources.appleBody">
@@ -48,7 +48,7 @@ const CMU_LICENSE = "https://github.com/hgthaii/dichthat/blob/master/Resources/T
         <p data-i18n="dataSources.wordnetBody">
           Provides English meanings, examples, parts of speech, and synonyms. Derived from Princeton WordNet 3.1 and licensed under CC BY 4.0.
         </p>
-        <div class="source-links">
+        <div class="info-links">
           <a href={WORDNET_SOURCE} target="_blank" rel="noreferrer"><span data-i18n="dataSources.sourceLink">Source</span> ↗</a>
           <a href={WORDNET_LICENSE} target="_blank" rel="noreferrer"><span data-i18n="dataSources.licenseLink">License</span> ↗</a>
         </div>
@@ -59,7 +59,7 @@ const CMU_LICENSE = "https://github.com/hgthaii/dichthat/blob/master/Resources/T
         <p data-i18n="dataSources.cmuBody">
           Provides US English pronunciation data used to generate IPA. DichThat bundles pinned revision 74790861f652b15e4ac49015a90074ad62a27690.
         </p>
-        <div class="source-links">
+        <div class="info-links">
           <a href={CMU_SOURCE} target="_blank" rel="noreferrer"><span data-i18n="dataSources.sourceLink">Source</span> ↗</a>
           <a href={CMU_LICENSE} target="_blank" rel="noreferrer"><span data-i18n="dataSources.licenseLink">License</span> ↗</a>
         </div>
@@ -68,81 +68,3 @@ const CMU_LICENSE = "https://github.com/hgthaii/dichthat/blob/master/Resources/T
   </main>
   <Footer />
 </BaseLayout>
-
-<style>
-  .sources {
-    min-height: calc(100vh - 150px);
-    padding-block: clamp(3rem, 8vw, 6rem) var(--section-space);
-  }
-
-  .back {
-    display: inline-flex;
-    gap: 0.55rem;
-    align-items: center;
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    text-decoration: none;
-  }
-
-  .back:hover { color: var(--text-primary); }
-
-  header {
-    max-width: var(--text-container);
-    margin-top: clamp(4rem, 10vw, 7rem);
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 1;
-    letter-spacing: -0.055em;
-  }
-
-  .intro {
-    margin: 1.5rem 0 1rem;
-    color: var(--text-secondary);
-    font-size: clamp(1.1rem, 2vw, 1.3rem);
-    line-height: 1.6;
-  }
-
-  header small {
-    color: var(--text-tertiary);
-    font-size: 0.75rem;
-  }
-
-  .source-list {
-    max-width: var(--text-container);
-    margin-top: clamp(4rem, 9vw, 6.5rem);
-  }
-
-  .source-list section {
-    padding-block: 2rem;
-    border-top: 1px solid var(--divider);
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
-  }
-
-  .source-list p {
-    margin: 0.85rem 0 0;
-    color: var(--text-secondary);
-    line-height: 1.7;
-  }
-
-  .source-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .source-links a {
-    color: var(--text-primary);
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-</style>

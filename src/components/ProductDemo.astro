@@ -16,7 +16,7 @@
         <i></i><i></i><i></i>
       </div>
       <p class="document-copy">
-				The <mark data-demo-selection>circumstances</mark> seemed propitious for a fresh beginning.
+        The <mark data-demo-selection>circumstances</mark> seemed propitious for a fresh beginning.
       </p>
       <div class="document-lines lower">
         <i></i><i></i><i></i>
@@ -36,41 +36,36 @@
 </section>
 
 <script>
-  const syncDemoPanel = (): void => {
-    document.querySelectorAll<HTMLElement>("[data-demo-stage]").forEach((stage) => {
-      const selection = stage.querySelector<HTMLElement>("[data-demo-selection]");
-      const panel = stage.querySelector<HTMLElement>("[data-demo-panel]");
-      if (!selection || !panel) return;
+  import { observeResponsiveLayout } from "../scripts/responsive-layout";
 
-      const stageRect = stage.getBoundingClientRect();
-      const selectionRect = selection.getBoundingClientRect();
-      const panelRect = panel.getBoundingClientRect();
-      const edge = 16;
-      const tailX = panelRect.width * (97 / 892);
-      const tailY = panelRect.width * (39 / 892);
-      const desiredLeft = selectionRect.right - stageRect.left - tailX;
-      const desiredTop = selectionRect.bottom - stageRect.top + 8 - tailY;
+  const positionPanel = (stage: HTMLElement): void => {
+    const selection = stage.querySelector<HTMLElement>("[data-demo-selection]");
+    const panel = stage.querySelector<HTMLElement>("[data-demo-panel]");
+    if (!selection || !panel) return;
 
-      const left = Math.min(
-        Math.max(desiredLeft, edge),
-        stageRect.width - panelRect.width - edge,
-      );
-      const top = Math.min(
-        Math.max(desiredTop, edge),
-        stageRect.height - panelRect.height - edge,
-      );
+    const stageRect = stage.getBoundingClientRect();
+    const selectionRect = selection.getBoundingClientRect();
+    const panelRect = panel.getBoundingClientRect();
+    const edge = 16;
+    const tailX = panelRect.width * (97 / 892);
+    const tailY = panelRect.width * (39 / 892);
+    const desiredLeft = selectionRect.right - stageRect.left - tailX;
+    const desiredTop = selectionRect.bottom - stageRect.top + 8 - tailY;
 
-      panel.style.left = `${left}px`;
-      panel.style.top = `${top}px`;
-    });
+    const left = Math.min(
+      Math.max(desiredLeft, edge),
+      stageRect.width - panelRect.width - edge,
+    );
+    const top = Math.min(
+      Math.max(desiredTop, edge),
+      stageRect.height - panelRect.height - edge,
+    );
+
+    panel.style.left = `${left}px`;
+    panel.style.top = `${top}px`;
   };
 
-  syncDemoPanel();
-  document.fonts.ready.then(syncDemoPanel);
-  document.querySelectorAll<HTMLImageElement>("[data-demo-panel] img").forEach((image) => {
-    if (!image.complete) image.addEventListener("load", syncDemoPanel, { once: true });
-  });
-  new ResizeObserver(syncDemoPanel).observe(document.documentElement);
+  observeResponsiveLayout("[data-demo-stage]", "[data-demo-panel] img", positionPanel);
 </script>
 
 <style>
@@ -131,8 +126,7 @@
     background: var(--divider);
   }
 
-  .document-lines i:nth-child(2),
-  .document-lines i:nth-child(5) {
+  .document-lines i:nth-child(2) {
     width: 72%;
   }
 
